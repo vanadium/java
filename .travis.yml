@@ -19,7 +19,7 @@ install:
 
 script:
   - make java
-  - make test-integration
+  - make java-test
  
 notifications:
     email: false
