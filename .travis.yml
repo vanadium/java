@@ -7,7 +7,7 @@ env:
   VDLPATH=$GOPATH/src
   VANADIUM_CORE_REPO=$TRAVIS_BUILD_DIR
 
-pre_install:
+before_install:
   - GIMME_OUTPUT=$(gimme 1.11.1) && eval "$GIMME_OUTPUT"
   - mkdir $TRAVIS_BUILD_DIR/src
 
