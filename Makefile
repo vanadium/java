@@ -7,7 +7,7 @@ VANADIUM_CORE_REPO ?= $(shell pwd)
 export VANADIUM_CORE_REPO
 
 .PHONY: java
-java: go
+java:
 	@echo "VANADIUM_CORE_REPO" ${VANADIUM_CORE_REPO}
 	cd java/lib && ../gradlew -i publishToMavenLocal
 
