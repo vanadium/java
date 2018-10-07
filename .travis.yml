@@ -8,12 +8,13 @@ env:
   VANADIUM_CORE_REPO=$TRAVIS_BUILD_DIR
 
 pre_install:
+  - GIMME_OUTPUT=$(gimme 1.11.1) && eval "$GIMME_OUTPUT"
   - mkdir $TRAVIS_BUILD_DIR/src
 
 install:
   - echo "GOPATH:" $GOPATH
   - echo "VDLPATH:" $VDLPATH
-  - go get -v -t v.io/... 
+  - go get -t v.io/... 
   - go install v.io/...
 
 script:
