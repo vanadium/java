@@ -22,4 +22,8 @@ script:
   - make test
  
 notifications:
-    email: false
+  email:
+    receipients:
+      - vanadium-ci@v.io
+    on_success: never
+    on_failure: always
