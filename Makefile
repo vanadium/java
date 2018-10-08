@@ -11,7 +11,7 @@ java:
 	@echo "VANADIUM_CORE_REPO" ${VANADIUM_CORE_REPO}
 	cd lib && ../gradlew -i publishToMavenLocal
 
-.PHONY: test-java
-test-java: java
+.PHONY: test
+test: java
 	cd lib && ../gradlew -i test
 

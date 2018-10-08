@@ -18,8 +18,8 @@ install:
   - go install v.io/...
 
 script:
-  - make java
-  - make java-test
+  - make
+  - make test
  
 notifications:
     email: false
