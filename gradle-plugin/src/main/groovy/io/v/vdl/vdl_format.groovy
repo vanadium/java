@@ -6,6 +6,7 @@ import com.google.common.io.Files
 import com.google.googlejavaformat.FormatterDiagnostic
 import com.google.googlejavaformat.java.Formatter
 import com.google.googlejavaformat.java.JavaCommentsHelper
+import com.google.googlejavaformat.java.JavaFormatterOptions
 import com.google.googlejavaformat.java.JavaInput
 import com.google.googlejavaformat.java.JavaOutput
 import org.gradle.api.DefaultTask
@@ -42,7 +43,7 @@ class FormatTask extends DefaultTask {
         ExecutorService executor = Executors.newFixedThreadPool(maxParallelism)
         ExecutorCompletionService<Void> service = new ExecutorCompletionService(executor)
         int tasks = 0
-        filesToFormat.each { fileCollection ->
+       filesToFormat.each { fileCollection ->
             fileCollection.each { fileToFormat ->
                 logger.info('Going to format {}', fileToFormat)
                 service.submit({
@@ -64,24 +65,27 @@ class FormatTask extends DefaultTask {
     }
 
     public void formatFile(File file) {
-        JavaInput input = new JavaInput(file.getAbsolutePath(), Files.toString(file, Charsets.UTF_8))
-        JavaOutput output = new JavaOutput(input, new JavaCommentsHelper());
+        JavaInput input = new JavaInput(Files.toString(file, Charsets.UTF_8))
+        JavaFormatterOptions opts = JavaFormatterOptions.defaultOptions()
+        JavaCommentsHelper commentsHelper = new JavaCommentsHelper('\n', opts)
+        JavaOutput output = new JavaOutput('\n', input, commentsHelper);
         List<FormatterDiagnostic> errors = []
-        Formatter.format(input, output, maxWidthColumns, errors, indentationMultiplier)
+        Formatter.format(input, output, opts)
         if (!errors.isEmpty()) {
             logger.warn("Could not format {}, {} error(s)", file, errors.size())
             for (FormatterDiagnostic diagnostic : errors) {
                 logger.warn(diagnostic.toString())
             }
-        } else {
-            RangeSet<Integer> rangeSet = TreeRangeSet.create()
-            rangeSet.add(Range.all())
-            FileWriter writer = new FileWriter(file)
-            try {
-                output.writeMerged(writer, rangeSet)
-            } finally {
-                writer.close()
-            }
-        }
+        } 
+        // else {
+        //     RangeSet<Integer> rangeSet = TreeRangeSet.create()
+        //     rangeSet.add(Range.all())
+        //     FileWriter writer = new FileWriter(file)
+        //     try {
+        //         output.writeMerged(writer, rangeSet)
+        //     } finally {
+        //         writer.close()
+        //     }
+        // }
     }
 }

@@ -90,13 +90,13 @@ The steps to release the [Gradle plugin] are:
   go to the [JCenter Gradle plugin] page. If this is a major release, increment the
   major release number and set the minor number to zero. If it's a minor
   release, increment the minor number and leave the major number unchanged
-* edit `$JIRI_ROOT/release/java/gradle-plugin/build.gradle` and change the
+* edit `java/gradle-plugin/build.gradle` and change the
   `releaseVersion` variable to the new release number
 * run the following commands:
 
 ```sh
-cd $JIRI_ROOT/release/java/gradle-plugin
-./gradlew clean bintrayUpload
+cd java/gradle-plugin
+../gradlew clean bintrayUpload
 ```
 
 This command will build and upload the VDL plugin to Bintray.
@@ -142,7 +142,7 @@ On either Linux or Darwin, perform the following steps:
 * run the following commands:
 
 ```sh
-cd $JIRI_ROOT/release/java
+cd java
 ./gradlew :lib:clean :lib:bintrayUpload
 ./gradlew :android-lib:clean :android-lib:bintrayUpload
 ```
@@ -150,7 +150,7 @@ cd $JIRI_ROOT/release/java
 Now, switch to the other platform (i.e. not the one you used for the above
 steps) and:
 
-* edit the `$JIRI_ROOT/release/java/lib/build.gradle` file
+* edit the `java/lib/build.gradle` file
 * change the `releaseVersion` variable to match the same variable from the
   previous steps
 * find the line that reads

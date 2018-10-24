@@ -14,4 +14,3 @@ java:
 .PHONY: test
 test: java
 	cd lib && ../gradlew -i test
-

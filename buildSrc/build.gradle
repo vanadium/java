@@ -13,11 +13,11 @@ dependencies {
     compile gradleApi()
     compile localGroovy()
     compile 'junit:junit:4.12'
-    compile 'com.google.truth:truth:0.27'
+    compile 'com.google.truth:truth:0.42'
 
-    jaxb 'com.sun.xml.bind:jaxb-xjc:2.2.7-b41'
-    jaxb 'com.sun.xml.bind:jaxb-impl:2.2.7-b41'
-    jaxb 'javax.xml.bind:jaxb-api:2.2.7'
+    jaxb 'com.sun.xml.bind:jaxb-xjc:2.3.1'
+    jaxb 'com.sun.xml.bind:jaxb-impl:2.3.1'
+    jaxb 'javax.xml.bind:jaxb-api:2.3.1'
 }
 
 def jaxbOutputPath = 'generated-src/main/java'

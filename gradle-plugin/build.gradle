@@ -1,26 +1,19 @@
-// You should change this after releasing a new version of the gradle plugin. See the
-// list of published versions at https://repo1.maven.org/maven2/io/v/gradle-plugin.
-def releaseVersion = '1.9'
-
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
-    }
+plugins {
+    id 'groovy'
+    id 'wrapper'
+    id 'maven-publish'
+    id "com.jfrog.bintray" version "1.8.4"
 }
-
-apply plugin: 'maven-publish'
-apply plugin: 'groovy'
-apply plugin: 'wrapper'
-apply plugin: 'com.jfrog.bintray'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
+
+
+// You should change this after releasing a new version of the gradle plugin. See the
+// list of published versions at https://repo1.maven.org/maven2/io/v/gradle-plugin.
+def releaseVersion = '1.10'
 
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
@@ -28,8 +21,8 @@ targetCompatibility = '1.7'
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'com.google.googlejavaformat:google-java-format:0.1-alpha'
-    testCompile 'com.google.truth:truth:0.27'
+    compile 'com.google.googlejavaformat:google-java-format:1.6'
+    testCompile 'com.google.truth:truth:0.42'
 }
 
 class VdlPlatform {
@@ -174,6 +167,7 @@ bintray {
         }
         userOrg = 'vanadium'
     }
+    override = true
     publications = ['mavenJava']
     platforms.each { platform ->
         publications += "mavenNatives${platform.name}"

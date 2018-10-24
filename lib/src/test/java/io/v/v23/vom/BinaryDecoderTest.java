@@ -206,13 +206,13 @@ public class BinaryDecoderTest extends TestCase {
         private final String s;
         private List<JavaObject> j;
 
-        public JavaObject() {
+       public JavaObject() {
             this.i = 0;
             this.s = "";
             this.j = null;
         }
 
-        public JavaObject(int i, String s, List<JavaObject> j) {
+       public JavaObject(int i, String s, List<JavaObject> j) {
             this.i = i;
             this.s = s;
             this.j = j;
