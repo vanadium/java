@@ -18,6 +18,9 @@ install:
   - go install v.io/...
 
 script:
+  - echo "GOPATH:" $GOPATH
+  - echo "VDLPATH:" $VDLPATH
+  - echo "VANADIUM_CORE_REPO" ${VANADIUM_CORE_REPO}
   - ./gradlew clean publishToMavenLocal -i
   - ./gradlew clean test -i
  
