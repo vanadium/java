@@ -19,6 +19,8 @@ install:
 
 script:
   - ls $GOPATH/src
+  - ls $GOPATH/src/v.io
+  - ls $GOPATH/src/v.io/x/jni/builder
   - ./gradlew clean publishToMavenLocal -i
   - ./gradlew clean test -i
  
