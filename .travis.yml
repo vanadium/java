@@ -5,7 +5,7 @@ jdk: oraclejdk8
 env:
   GOPATH=$TRAVIS_BUILD_DIR/gopath
   VDLPATH=$GOPATH/src
-  VANADIUM_CORE_REPO=$TRAVIS_BUILD_DIR
+  VANADIUM_CORE_REPO=$GOPATH
 
 before_install:
   - GIMME_OUTPUT=$(gimme 1.11.1) && eval "$GIMME_OUTPUT"
