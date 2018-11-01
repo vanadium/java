@@ -76,16 +76,6 @@ class FormatTask extends DefaultTask {
             for (FormatterDiagnostic diagnostic : errors) {
                 logger.warn(diagnostic.toString())
             }
-        } 
-        // else {
-        //     RangeSet<Integer> rangeSet = TreeRangeSet.create()
-        //     rangeSet.add(Range.all())
-        //     FileWriter writer = new FileWriter(file)
-        //     try {
-        //         output.writeMerged(writer, rangeSet)
-        //     } finally {
-        //         writer.close()
-        //     }
-        // }
+        }
     }
 }

@@ -131,7 +131,7 @@ class VdlPlugin implements Plugin<Project> {
             if (!it.canBeResolved) {
                 return
             }
-            it.each({ 
+            it.each({
                 if (it.getName().endsWith('.jar') && it.exists()) {
                     if (extractVdlFiles(it, new File(project.getProjectDir(), project.vdl.transitiveVdlDir))) {
                         result.add(project.vdl.transitiveVdlDir)
