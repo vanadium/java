@@ -18,8 +18,8 @@ install:
   - go install v.io/...
 
 script:
-  - ./gradlew clean publishToMavenLocal -i
-  - ./gradlew clean test -i
+  - cd gradle-plugin && ../gradlew clean publishToMavenLocal test -i
+  - ./gradlew lib:test -i
  
 notifications:
   email:
