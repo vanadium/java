@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.org/vanadium/java.svg?branch=master)](https://travis-ci.org/vanadium/java)
+
 Vanadium Java Support
 =====================
 
