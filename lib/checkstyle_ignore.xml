@@ -6,5 +6,6 @@
 
 <suppressions>
     <suppress files="[\\/]generated-src[\\/]" checks="."/>
+    <suppress files="BinaryDecoderTest\.java$" checks="RedundantModifier" lines="209,215"/>
 </suppressions>
 

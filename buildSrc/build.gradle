@@ -13,7 +13,7 @@ dependencies {
     compile gradleApi()
     compile localGroovy()
     compile 'junit:junit:4.12'
-    compile 'com.google.truth:truth:0.27'
+    compile 'com.google.truth:truth:0.42'
 
     jaxb 'com.sun.xml.bind:jaxb-xjc:2.2.7-b41'
     jaxb 'com.sun.xml.bind:jaxb-impl:2.2.7-b41'

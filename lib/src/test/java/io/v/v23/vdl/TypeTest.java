@@ -112,7 +112,7 @@ public class TypeTest extends TestCase {
     private static final class MyArray12 extends VdlArray<Set<MyUnion>> {
         private static final long serialVersionUID = 1L;
 
-        public MyArray12(Set<MyUnion>[] value) {
+        MyArray12(Set<MyUnion>[] value) {
             super(Types.getVdlTypeFromReflect(MyArray12.class), value);
         }
     }
@@ -120,7 +120,7 @@ public class TypeTest extends TestCase {
     @GeneratedFromVdl(name = "MyList")
     private static final class MyList extends VdlList<List<MyArray12>> {
         private static final long serialVersionUID = 1L;
-        public MyList(List<List<MyArray12>> impl) {
+        MyList(List<List<MyArray12>> impl) {
             super(Types.getVdlTypeFromReflect(MyList.class), impl);
         }
     }
@@ -128,7 +128,7 @@ public class TypeTest extends TestCase {
     @GeneratedFromVdl(name = "MySet")
     private static final class MySet extends VdlSet<Set<MyList>> {
         private static final long serialVersionUID = 1L;
-        public MySet(Set<Set<MyList>> impl) {
+        MySet(Set<Set<MyList>> impl) {
             super(Types.getVdlTypeFromReflect(MySet.class), impl);
         }
     }
@@ -136,7 +136,7 @@ public class TypeTest extends TestCase {
     @GeneratedFromVdl(name = "MyMap")
     private static final class MyMap extends VdlMap<MyEnum, Map<MySet, MySet>> {
         private static final long serialVersionUID = 1L;
-        public MyMap(Map<MyEnum, Map<MySet, MySet>> impl) {
+        MyMap(Map<MyEnum, Map<MySet, MySet>> impl) {
             super(Types.getVdlTypeFromReflect(MyMap.class), impl);
         }
     }
@@ -151,7 +151,7 @@ public class TypeTest extends TestCase {
         @GeneratedFromVdl(name = "Cycle", index = 2)
         private List<MyStruct> cycle;
 
-        public MyStruct() {
+        MyStruct() {
             super(Types.getVdlTypeFromReflect(MyStruct.class));
         }
     }

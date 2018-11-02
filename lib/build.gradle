@@ -1,14 +1,15 @@
-import groovy.json.internal.Charsets
-
 buildscript {
     repositories {
-        mavenLocal()
-        mavenCentral()
+        mavenLocal() // uncomment when debbugging locally
         jcenter()
+        mavenCentral()
+	 maven {
+        url  "https://dl.bintray.com/vanadium/io.v" 
+    }
     }
     dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
-        classpath 'io.v:gradle-plugin:1.9'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'io.v:gradle-plugin:1.10'
     }
 }
 
@@ -22,9 +23,9 @@ apply plugin: 'com.jfrog.bintray'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-// You should change this after releasing a new version of the library. See the
-// list of published versions at https://repo1.maven.org/maven2/io/v/vanadium.
-def releaseVersion = '2.2.4'
+// You should change this after releasing a new version of the library.
+// See the list of published versions at https://repo1.maven.org/maven2/io/v/vanadium.
+def releaseVersion = '2.2.5'
 
 dependencies {
     compile group: 'joda-time', name: 'joda-time', version: '2.7'
@@ -130,17 +131,11 @@ task checkVanadiumEnvironment {
 }
 
 task goBuildVanadiumLib(type: Exec, dependsOn: checkVanadiumEnvironment) {
-    def javaHome = System.getenv('JAVA_HOME')
-    environment CGO_CFLAGS: '-I' + javaHome + '/include' + ' ' +
-        '-I' + javaHome + '/include/' + getOsName()
-    def output = ''
-    if (isLinux()) {
-        output = 'build/libs/libv23.so'
-    } else {  // darwin
-        output = 'build/libs/libv23.dylib'
-    }
-    commandLine 'go', 'build', '-buildmode=c-shared', '-v', '-tags', 'java cgo',
-        '-o', output, 'v.io/x/jni/main'
+    commandLine 'go', 'run', 'v.io/x/jni/builder', '--output-dir=build/libs', '--output-lib=libv23', '--package-name=v.io/x/jni/main'
+}
+
+task goBuildVanadiumLibTest(type: Exec, dependsOn: checkVanadiumEnvironment) {
+    commandLine 'go', 'run', 'v.io/x/jni/builder', '--output-dir=build/libs/tests', '--output-lib=libv23','--package-name=v.io/x/jni/testmain'
 }
 
 // Add shared library dependency to our tests.
@@ -151,23 +146,26 @@ tasks.withType(Test) {
         jvmArgs '-XX:+UnlockDiagnosticVMOptions'
         jvmArgs '-XX:-LogEvents'
     }
-    systemProperty "java.library.path", "build/libs"
+    systemProperty "java.library.path", "build/libs/tests"
     systemProperty "file.encoding", "UTF8"
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+    options.compilerArgs += ["-Xlint:deprecation"]
 }
 
-tasks.'processTestResources'.dependsOn(goBuildVanadiumLib)
+tasks.'processTestResources'.dependsOn(goBuildVanadiumLibTest)
 
 // We cannot reliably determine whether the native vanadium lib is up-to-date.
 // Therefore we always run the tests even if Gradle thinks that there is no
 // need.
 tasks.'test'.outputs.upToDateWhen({ false })
 
-tasks.'test' << {
-    io.v.VanadiumTestXmlAggregator.mergeAllTestXmlFiles(new File("${buildDir}/test-results"), new File("${buildDir}/aggregated-test-results.xml"))
+tasks.'test' {
+    doLast {
+        io.v.VanadiumTestXmlAggregator.mergeAllTestXmlFiles(new File("${buildDir}/test-results"), new File("${buildDir}/aggregated-test-results.xml"))
+    }
 }
 
 task buildVanadiumLib(dependsOn: goBuildVanadiumLib) {}
@@ -207,7 +205,7 @@ task emptyJar(type: Jar) {
 
     project.buildDir.mkdirs()
     File explanation = new File(project.buildDir, 'empty-jar.txt')
-    explanation.setText('This artifact has no Java sources or javadoc', Charsets.US_ASCII.name())
+    explanation.setText('This artifact has no Java sources or javadoc', "US-ASCII")
     from explanation
 }
 
@@ -371,11 +369,13 @@ tasks.withType(FindBugs) { findbugsTask ->
     // For each findbugs task, add a task to dump the findbugs report in plain
     // text. For this, we translate the findbugs report XML to text using a
     // custom XSLT template.
-    def reportTask = task "${findbugsTask.name}-report" << {
-        ant.xslt(in: findbugsTask.reports.xml.destination,
+    def reportTask = task "${findbugsTask.name}-report" {
+        doLast {
+            ant.xslt(in: findbugsTask.reports.xml.destination,
                  out: findbugsTask.reports.xml.destination.path + '.txt',
                  style: 'findbugs/findbugs_report.xsl')
-        println file(findbugsTask.reports.xml.destination.path + '.txt').text
+            println file(findbugsTask.reports.xml.destination.path + '.txt').text
+        }
     }
 
     // run the report task even if the findbugs check failed

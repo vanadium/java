@@ -45,7 +45,7 @@ public class ConvertUtilTest extends TestCase {
         public final Object value;
         public final String typeMask;
 
-        public NumericConversionTestCase(Object value, String typeMask) {
+        NumericConversionTestCase(Object value, String typeMask) {
             assert(typeMask.length() == numericTypes.length);
             this.value = value;
             this.typeMask = typeMask;
@@ -56,7 +56,7 @@ public class ConvertUtilTest extends TestCase {
         public final String value;
         public final String typeMask;
 
-        public BytesConversionTestCase(String value, String typeMask) {
+        BytesConversionTestCase(String value, String typeMask) {
             assert(typeMask.length() == bytesTypes.length);
             this.value = value;
             this.typeMask = typeMask;

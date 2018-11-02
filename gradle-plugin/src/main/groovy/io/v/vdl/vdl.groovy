@@ -128,6 +128,9 @@ class VdlPlugin implements Plugin<Project> {
         // Go through the dependencies of all configurations looking for jar files containing
         // VDL files.
         project.configurations.each({
+            if (!it.canBeResolved) {
+                return
+            }
             it.each({
                 if (it.getName().endsWith('.jar') && it.exists()) {
                     if (extractVdlFiles(it, new File(project.getProjectDir(), project.vdl.transitiveVdlDir))) {
